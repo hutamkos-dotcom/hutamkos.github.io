@@ -2312,8 +2312,8 @@ a.salon-content-btn {
     text-align: center;
     padding: 20px 18px;
     margin: 4px 0 18px 0;
-    background: #ffffff;
-    border: 1px solid #e8e4dd;
+    background: var(--btn-bg);
+    border: 1px solid var(--btn-bg);
     border-radius: var(--radius-xs);
 }
 
@@ -2321,19 +2321,19 @@ a.salon-content-btn {
     font-family: 'Fraunces', serif;
     font-size: 20px;
     font-weight: 500;
-    color: #1a1a1a;
+    color: var(--btn-text);
     letter-spacing: -0.01em;
     line-height: 1.2;
     padding-bottom: 14px;
     margin-bottom: 14px;
-    border-bottom: 1px solid #e8e4dd;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
 }
 
 .reviews-summary-percent {
     font-family: 'Fraunces', serif;
     font-size: 42px;
     font-weight: 500;
-    color: #1a1a1a;
+    color: var(--btn-text);
     letter-spacing: -0.02em;
     line-height: 1;
     margin-bottom: 6px;
@@ -2491,6 +2491,218 @@ a.salon-content-btn {
     letter-spacing: -0.005em;
     margin-top: 4px;
 }
+
+/* ============================================ */
+/* CSS F5b - NEW REVIEW MODAL                   */
+/* ============================================ */
+.new-review-btn {
+    width: 100%;
+    height: 38px;
+    background: #e8a020;
+    color: #000000;
+    border: 1px solid #e8a020;
+    border-radius: var(--radius-xs);
+    font-family: 'Fraunces', serif;
+    font-size: 13px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: none;
+    letter-spacing: 0.01em;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+
+
+.new-review-type-label {
+    font-family: 'Fraunces', serif;
+    font-size: 12px;
+    color: var(--text-secondary);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.new-review-type-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.new-review-textarea-wrap {
+    position: relative;
+    margin-bottom: 12px;
+}
+
+.new-review-textarea {
+    width: 100%;
+    min-height: 110px;
+    background: var(--list-item-hover);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xs);
+    color: var(--text-primary);
+    font-family: 'Fraunces', serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.6;
+    padding: 12px 14px 28px 14px;
+    resize: none;
+    outline: none;
+    transition: border-color 0.3s;
+    letter-spacing: -0.005em;
+}
+
+.new-review-textarea:focus {
+    border-color: var(--text-primary);
+}
+
+.new-review-textarea::placeholder {
+    color: var(--text-secondary);
+    font-weight: 300;
+}
+
+.new-review-char-count {
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+    font-family: 'Fraunces', serif;
+    font-size: 10px;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+    pointer-events: none;
+}
+
+.new-review-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Fraunces', serif;
+    font-size: 11px;
+    color: var(--text-secondary);
+    letter-spacing: 0.04em;
+    margin-bottom: 14px;
+    padding: 0 2px;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.new-review-meta strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.new-review-submit-btn {
+    width: 100%;
+    height: 42px;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border: none;
+    border-radius: var(--radius-xs);
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+    letter-spacing: 0.01em;
+}
+
+.new-review-submit-btn:hover { background: var(--btn-hover-bg); }
+.new-review-submit-btn:active { transform: scale(0.98); }
+
+
+.new-review-required {
+    color: var(--review-negative);
+    font-weight: 600;
+    margin-left: 2px;
+}
+
+.new-review-submit-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.new-review-submit-btn:disabled:hover {
+    background: var(--btn-bg);
+}
+
+css
+
+copy to clipboard
+/* CSS F5b - NEW REVIEW MODAL - fix méret, görgetés */
+#newReviewModal .modal-content {
+    height: 580px;
+    max-height: calc(100vh - 40px);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#newReviewModal .modal-body {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 20px;
+}
+
+#newReviewModal .modal-body-scroll {
+    position: absolute;
+    inset: 0 0 20px 0;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 14px 24px 14px 24px;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+}
+
+#newReviewModal .modal-body-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.new-review-textarea {
+    width: 100%;
+    min-height: 180px;
+    max-height: 180px;
+    background: var(--list-item-hover);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xs);
+    color: var(--text-primary);
+    font-family: 'Fraunces', serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.6;
+    padding: 12px 14px 28px 14px;
+    resize: none;
+    outline: none;
+    transition: border-color 0.3s;
+    letter-spacing: -0.005em;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.new-review-textarea::-webkit-scrollbar {
+    display: none;
+}
+
+.new-review-textarea:focus {
+    border-color: var(--text-primary);
+}
+
+.new-review-textarea::placeholder {
+    color: var(--text-secondary);
+    font-weight: 300;
+}
+
 
 
 /* ============================================ */
@@ -3016,3 +3228,113 @@ a.salon-content-btn {
     font-style: italic;
     letter-spacing: -0.005em;
 }
+
+/* Reviews summary stars */
+.reviews-summary-stars {
+    margin: 10px 0 4px 0;
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
+.summary-star {
+    font-size: 22px;
+    color: var(--border-color);
+    transition: color 0.2s;
+}
+
+.summary-star.filled { color: #e8a020; }
+
+/* Verdict */
+.reviews-verdict {
+    margin-top: 12px;
+    padding: 8px 14px;
+    border-radius: var(--radius-xs);
+    font-family: 'Fraunces', serif;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.verdict-positive {
+    background: rgba(45, 122, 62, 0.1);
+    color: var(--review-positive);
+    border: 1px solid rgba(45, 122, 62, 0.2);
+}
+
+.verdict-mixed {
+    background: rgba(180, 130, 20, 0.1);
+    color: #a07010;
+    border: 1px solid rgba(180, 130, 20, 0.2);
+}
+
+body.theme-dark .verdict-mixed {
+    color: #d4a030;
+    background: rgba(212, 160, 48, 0.1);
+    border-color: rgba(212, 160, 48, 0.2);
+}
+
+.verdict-negative {
+    background: rgba(198, 40, 40, 0.1);
+    color: var(--review-negative);
+    border: 1px solid rgba(198, 40, 40, 0.2);
+}
+
+/* New review guide */
+.new-review-guide {
+    font-family: 'Fraunces', serif;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    text-align: center;
+    line-height: 1.55;
+    margin-bottom: 12px;
+    padding: 10px 12px;
+    background: var(--list-item-hover);
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--border-color);
+}
+
+.new-review-guide strong { color: var(--text-primary); }
+
+/* Stars row */
+.new-review-stars-label {
+    font-family: 'Fraunces', serif;
+    font-size: 11px;
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    margin: 14px 0 6px 0;
+    font-weight: 500;
+}
+
+.new-review-stars-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 14px;
+}
+
+.new-review-star {
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    color: var(--border-color);
+    cursor: pointer;
+    padding: 0 2px;
+    transition: color 0.2s, transform 0.15s;
+    line-height: 1;
+}
+
+.new-review-star:hover { transform: scale(1.2); color: #e8a020; }
+.new-review-star.filled { color: #e8a020; }
+
+.new-review-submit-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.new-review-submit-btn:disabled:hover { background: var(--btn-bg); }
