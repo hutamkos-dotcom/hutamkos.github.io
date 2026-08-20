@@ -57,9 +57,6 @@ const contactOverlay = $('contactOverlay');
 const contactClose = $('contactClose');
 
 const brochureOverlay = $('brochureOverlay');
-const brochureBackBtn = $('brochureBackBtn');
-const brochureHeartBtn = $('brochureHeartBtn');
-const brochureShareBtn = $('brochureShareBtn');
 const brochureScroll = $('brochureScroll');
 
 const quoteSection = $('quoteSection');
@@ -67,10 +64,6 @@ const quoteText = $('quoteText');
 const quoteAuthor = $('quoteAuthor');
 
 const themeMenuItem = $('themeMenuItem');
-const autoMenuItem = $('autoMenuItem');
-
-const autoMode = $('autoMode');
-const autoIntro = $('autoIntro');
 
 const filterBar = $('filterBar');
 const filterBtns = document.querySelectorAll('.filter-btn');
@@ -186,11 +179,10 @@ quoteSection.addEventListener('click', (e) => { e.stopPropagation(); renderQuote
 // THEME
 // ============================================
 const THEME_KEY = 'nails1_theme';
-const themes = ['light', 'dark', 'black'];
-const themeLabels = { light: 'világos', dark: 'sötét', black: 'kontrasztos' };
+const themes = ['light', 'dark'];
+const themeLabels = { light: 'világos', dark: 'sötét' };
 
 function getCurrentTheme() {
-    if (document.body.classList.contains('theme-black')) return 'black';
     if (document.body.classList.contains('theme-dark')) return 'dark';
     return 'light';
 }
@@ -200,9 +192,8 @@ function updateThemeMenuLabel() {
 }
 
 function applyTheme(theme) {
-    document.body.classList.remove('theme-light', 'theme-dark', 'theme-black');
+    document.body.classList.remove('theme-light', 'theme-dark');
     if (theme === 'dark') document.body.classList.add('theme-dark');
-    else if (theme === 'black') document.body.classList.add('theme-black');
     else document.body.classList.add('theme-light');
 
     const meta = document.querySelector('meta[name="theme-color"]');
@@ -229,8 +220,7 @@ function isAnyOverlayOpen() {
            menuModal.classList.contains('active') ||
            resultModal.classList.contains('active') ||
            priceInfoModal.classList.contains('active') ||
-           reviewsModal.classList.contains('active') ||
-           autoMode.classList.contains('active');
+           reviewsModal.classList.contains('active');
 }
 
 function syncBottomNavWithOverlays() {
@@ -551,8 +541,6 @@ const categoryRelevantIcons = {
     nyomda: ['about', 'phone', 'web']
 };
 
-// Első felirat (Engedd, hogy bemutatkozzam...) - 2.5 másodperc után eltűnik
-// és megjelenik a CTA gomb pl. "Bemutatkozás megnyitása..."
 const ICON_HINTS = {
     about:    { first: 'Engedd meg, hogy bemutatkozzam.', cta: 'Bemutatkozás megnyitása…' },
     calendar: { first: 'Nézd meg, van-e még szabad időpontom.', cta: 'Naptár megnyitása…' },
@@ -1121,163 +1109,6 @@ function renderDetailList() {
 
         const detailsInner = `
             <div class="salon-icon-row">${iconsHTML}</div>
-            <div class="salon-icon-hint" data-icon-hint="${item.id}"></div>
-            <div class="salon-content" data-salon-content="${item.id}"></div>
-            <div class="detail-list-stats-row">
-                <button class="detail-list-views" data-action="views" data-item-id="${item.id}">Látták: <strong>${views}</strong></button>
-                <button class="detail-list-reviews" data-action="reviews" data-item-id="${item.id}">Értékelések: <strong>${reviewText}</strong></button>
-            </div>
-        `;
-
-        return `
-            <div class="detail-list-item" data-item-id="${item.id}">
-                <div class="detail-list-main">
-                    ${leftHTML}
-                    <span class="detail-list-name">${item.name}</span>
-                    ${rightHTML}
-                </div>
-                <div class="detail-list-details">${detailsInner}</div>
-            </div>`;
-    }).join('');
-
-    detailList.querySelectorAll('.detail-list-item').forEach(el => {
-        el.addEventListener('click', (e) => {
-            if (e.target.closest('[data-action]') ||
-                e.target.closest('[data-salon-icon]') ||
-                e.target.closest('.salon-content') ||
-                e.target.closest('.salon-hours-arrow') ||
-                e.target.closest('.salon-cal-arrow') ||
-                e.target.closest('.salon-web-arrow') ||
-                e.target.closest('.salon-price-display') ||
-                e.target.closest('a')) return;
-            const expanded = el.classList.contains('expanded');
-            detailList.querySelectorAll('.detail-list-item.expanded').forEach(o => {
-                if (o !== el) o.classList.remove('expanded');
-            });
-            el.classList.toggle('expanded', !expanded);
-
-            if (!expanded) {
-                const sid = el.dataset.itemId;
-                const firstRelevant = relevantIcons[0] || 'about';
-                if (!itemUiState[sid]) itemUiState[sid] = { activeIcon: firstRelevant, hoursDayOffset: 0, calendarDayOffset: 0, webLinkIdx: 0, webRevealed: false };
-                else if (!itemUiState[sid].activeIcon || !relevantIcons.includes(itemUiState[sid].activeIcon)) {
-                    itemUiState[sid].activeIcon = firstRelevant;
-                }
-                // Az első ikonhoz tartozó hint animáció indítása (first -> cta)
-                showIconHint(sid, itemUiState[sid].activeIcon);
-                renderItemContent(sid);
-            }
-        });
-    });
-
-    detailList.querySelectorAll('[data-salon-icon]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (btn.classList.contains('disabled')) return;
-            const sid = btn.dataset.itemId;
-            const type = btn.dataset.salonIcon;
-            if (!itemUiState[sid]) itemUiState[sid] = { activeIcon: type, hoursDayOffset: 0, calendarDayOffset: 0, webLinkIdx: 0, webRevealed: false };
-            itemUiState[sid].activeIcon = type;
-            // Web ikonra váltáskor reset
-            if (type === 'web') {
-                itemUiState[sid].webRevealed = false;
-                itemUiState[sid].webLinkIdx = 0;
-            }
-            renderItemContent(sid);
-            showIconHint(sid, type);
-        });
-    });
-
-    detailList.querySelectorAll('[data-action="views"]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const c = incrementViewCount(btn.dataset.itemId);
-            const strong = btn.querySelector('strong');
-            if (strong) strong.textContent = formatViewCount(c);
-        });
-    });
-
-    detailList.querySelectorAll('[data-action="reviews"]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            openReviewsModal(btn.dataset.itemId);
-        });
-    });
-}
-
-// ============================================
-// ICON HINT - 2.5 másodperc után átváltás CTA-ra
-// ============================================
-const iconHintTimers = {};
-
-function showIconHint(itemId, iconType) {
-    const hintEl = detailList.querySelector(`[data-icon-hint="${itemId}"]`);
-    if (!hintEl) return;
-
-    const hint = ICON_HINTS[iconType];
-    if (!hint) {
-        hintEl.classList.remove('visible');
-        hintEl.classList.remove('cta');
-        hintEl.textContent = '';
-        return;
-    }
-
-    // Először: az első szöveg (leíró)
-    hintEl.classList.remove('cta');
-    hintEl.textContent = hint.first;
-    hintEl.classList.add('visible');
-
-    if (iconHintTimers[itemId]) clearTimeout(iconHintTimers[itemId]);
-
-    // 2.5 másodperc után átváltás CTA-ra (nem eltűnés!)
-    iconHintTimers[itemId] = setTimeout(() => {
-        // finom fade
-        hintEl.classList.remove('visible');
-        setTimeout(() => {
-            hintEl.textContent = hint.cta;
-            hintEl.classList.add('cta');
-            hintEl.classList.add('visible');
-        }, 200);
-    }, 2500);
-}
-
-// ============================================
-// LIST RENDER
-// ============================================
-function renderDetailList() {
-    const items = categoryLists[currentCategory] || [];
-    const relevantIcons = categoryRelevantIcons[currentCategory] || [];
-    const openNow = isSalonOpenNow();
-
-    detailList.innerHTML = items.map((item) => {
-        const isOnline = item.online === true || item.km === 0 || item.km === undefined;
-        const isBook = item.isBook === true;
-        const views = formatViewCount(getViewCount(item.id));
-
-        const reviewData = getSalonReviews(item.id);
-        const reviewText = `${reviewData.total}/${reviewData.percent}%`;
-
-        let leftHTML, rightHTML;
-        if (isBook) {
-            leftHTML = `<span class="detail-list-status open">Könyv</span>`;
-            rightHTML = `<span class="detail-list-km">${item.bookYear || 2020}</span>`;
-        } else if (isOnline) {
-            leftHTML = `<span class="detail-list-status open">0–24</span>`;
-            rightHTML = `<span class="detail-list-km">online</span>`;
-        } else {
-            const kmClass = getKmClass(item.km);
-            leftHTML = `<span class="detail-list-status ${openNow ? 'open' : 'closed'}">${openNow ? 'Nyitva' : 'Zárva'}</span>`;
-            rightHTML = `<span class="detail-list-km ${kmClass}">${item.km} km</span>`;
-        }
-
-        const iconsHTML = SALON_ICON_ORDER.map(type => {
-            const isRelevant = relevantIcons.includes(type);
-            const disabledClass = isRelevant ? '' : 'disabled';
-            return `<button class="salon-icon-btn ${disabledClass}" data-salon-icon="${type}" data-item-id="${item.id}" data-relevant="${isRelevant}" aria-label="${type}">${SALON_ICONS[type]}</button>`;
-        }).join('');
-
-        const detailsInner = `
-            <div class="salon-icon-row">${iconsHTML}</div>
             <div class="salon-content" data-salon-content="${item.id}"></div>
             <div class="detail-list-stats-row">
                 <button class="detail-list-views" data-action="views" data-item-id="${item.id}">Látták: <strong>${views}</strong></button>
@@ -1335,7 +1166,7 @@ function renderDetailList() {
             const type = btn.dataset.salonIcon;
             if (!itemUiState[sid]) itemUiState[sid] = { activeIcon: type, hoursDayOffset: 0, calendarDayOffset: 0, webLinkIdx: 0, phase: 'intro' };
             itemUiState[sid].activeIcon = type;
-            itemUiState[sid].phase = 'intro'; // ikonra váltáskor újra intro
+            itemUiState[sid].phase = 'intro';
             if (type === 'web') {
                 itemUiState[sid].webLinkIdx = 0;
             }
@@ -1361,7 +1192,7 @@ function renderDetailList() {
 }
 
 // ============================================
-// INTRO SZÖVEGEK - érintésre váltásos rendszer
+// INTRO SZÖVEGEK
 // ============================================
 const ICON_INTRO = {
     about:    'Engedd meg, hogy bemutatkozzam!',
@@ -1373,7 +1204,7 @@ const ICON_INTRO = {
     web:      'Látogasd meg az oldalaimat!'
 };
 
-const FADE_DURATION = 700; // ms - fade átmenet a két szöveg között
+const FADE_DURATION = 700;
 
 // ============================================
 // ITEM CONTENT RENDER
@@ -1397,7 +1228,6 @@ function renderItemContent(itemId) {
     }
 
     if (phase === 'intro') {
-        // 1. fázis: intro szöveg egy gombon
         const introText = ICON_INTRO[type] || '';
         contentEl.innerHTML = `
             <button class="salon-content-btn salon-intro-btn" data-intro-btn="${itemId}">
@@ -1408,7 +1238,6 @@ function renderItemContent(itemId) {
         if (introBtn) {
             introBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
-                // Átváltás a final fázisra fade-del
                 const label = introBtn.querySelector('.btn-label');
                 if (label) {
                     label.style.transition = `opacity ${FADE_DURATION}ms ease`;
@@ -1418,7 +1247,6 @@ function renderItemContent(itemId) {
                     state.phase = 'final';
                     itemUiState[itemId] = state;
                     renderItemContent(itemId);
-                    // Fade-in a final tartalomra
                     const contentElAfter = detailList.querySelector(`[data-salon-content="${itemId}"]`);
                     if (contentElAfter) {
                         const textSelectors = '.btn-label, .day-name, .day-time, .price-label, .price-value';
@@ -1439,7 +1267,6 @@ function renderItemContent(itemId) {
         return;
     }
 
-    // 2. fázis: végleges tartalom (működik minden akció)
     let html = '';
     if (type === 'about') {
         html = `<button class="salon-content-btn" data-action="item-about" data-item-id="${itemId}"><span class="btn-label">Bemutatkozás megnyitása</span></button>`;
@@ -1689,7 +1516,6 @@ function renderWebNavHTML(itemId, item, idx) {
 // ============================================
 function buildModalStructure(modalEl, title, subtitle, innerHTML) {
     const closeBtnHTML = modalEl.querySelector('.modal-close')?.outerHTML || '<button class="modal-close">×</button>';
-
     const subtitleHTML = subtitle ? `<div class="modal-subtitle">${subtitle}</div>` : '';
 
     modalEl.querySelector('.modal-content').innerHTML = `
@@ -1710,7 +1536,7 @@ function buildModalStructure(modalEl, title, subtitle, innerHTML) {
 }
 
 // ============================================
-// PRICE INFO MODAL - régió átlaga LEGFELÜL, majd szalon neve + árai
+// PRICE INFO MODAL
 // ============================================
 function openPriceInfoModal(salonId) {
     const stats = getSalonPriceStats(salonId);
@@ -1740,14 +1566,12 @@ function openPriceInfoModal(salonId) {
     }
 
     const innerHTML = `
-        <!-- Régió átlaga -->
         <div class="price-info-region price-info-region-top">
             <div class="label">Régió átlaga</div>
             <div class="value">${formatPrice(regionAvg)}</div>
             <div class="sublabel">A körzetben található összes szalon átlagára</div>
         </div>
 
-        <!-- Szalon kártyája (kiemelt) -->
         <div class="price-info-salon-card">
             <div class="price-info-salon-name">${salonName}</div>
 
@@ -1768,31 +1592,22 @@ function openPriceInfoModal(salonId) {
             </div>
         </div>
 
-        <!-- Magyarázó szekció -->
         <div class="price-info-section-heading">Amit az árazásról tudni érdemes</div>
-
         <p class="price-info-desc">A megjelenített értékek a szolgáltató árlistája alapján készülnek. Minden szalon a saját szempontjai szerint bontja tételekre a szolgáltatásait, így az árlista hossza és összetétele változó lehet – a statisztika mindig a teljes, aktuális árlistára támaszkodik.</p>
 
         <div class="price-info-section-heading">Hogyan számoljuk?</div>
-
         <p class="price-info-desc"><strong>Átlagár:</strong> az árlistán szereplő tételek árait összeadjuk, majd elosztjuk a tételek számával. Ez egy általános képet ad arról, mennyibe kerülnek jellemzően a szalon szolgáltatásai.</p>
-
         <p class="price-info-desc"><strong>Medián:</strong> az árakat növekvő sorrendbe rendezzük, és a középső értéket vesszük. ${medianExplain}</p>
-
         <p class="price-info-desc"><strong>Régió átlaga:</strong> a környék összes szalonjának saját átlagárait vesszük, és ezek átlagát képezzük. Ez segít megítélni, hogy egy adott szalon árazása mennyire illeszkedik a helyi piaci szinthez.</p>
 
         <div class="price-info-section-heading">Hogyan értelmezd?</div>
-
         <p class="price-info-desc">Ha az átlag és a medián közel áll egymáshoz, az árazás kiegyensúlyozott. Ha az átlag jóval magasabb, néhány drágább tétel húzza felfelé az összképet – ilyenkor érdemesebb a mediánt figyelembe venni.</p>
 
         <div class="price-info-section-heading">Az árról – árnyaltabban</div>
-
         <p class="price-info-desc">Az alacsony ár önmagában nem feltétlenül jelenti azt, hogy a szolgáltató kevésbé tapasztalt, vagy a minőség gyengébb. Számos esetben tudatos piacszerzési vagy vendégépítési stratégia áll mögötte: egy pályakezdő, de precíz szakember gyakran szándékosan pozicionálja magát a piaci átlag alatt, hogy stabil visszatérő vendégkört alakítson ki. Előfordul az is, hogy egy tapasztalt szolgáltató a lakókörnyezetéhez, célközönségéhez igazítja árait.</p>
-
         <p class="price-info-desc">Ugyanez fordítva is igaz: a magas ár önmagában nem garantálja a magasabb minőséget vagy a nagyobb szakmai profizmust. Sok esetben a prémium árazás valódi hozzáadott értéket – kiemelkedő szakértelmet, minőségi alapanyagokat, egyedi élményt – tükröz, más esetben viszont pusztán marketing- vagy pozicionálási döntés eredménye.</p>
 
         <div class="price-info-section-heading">A teljes kép</div>
-
         <p class="price-info-desc">Mindkét árkategóriában találni kimagasló és csalódást keltő példákat egyaránt. Ezért érdemes az árat mindig együtt nézni a vendégértékelésekkel, a portfólióval és a személyes benyomással – így alakul ki a legmegbízhatóbb kép.</p>
     `;
 
@@ -1867,7 +1682,7 @@ function renderReviewsModal() {
         `).join('')
         : '<p style="text-align:center; padding: 20px 0; color: var(--text-secondary);">Nincs megjeleníthető értékelés.</p>';
 
-        const innerHTML = `
+    const innerHTML = `
         <div class="reviews-summary">
             <div class="reviews-summary-salon-name">${salonName}</div>
             <div class="reviews-summary-percent">${data.percent}%</div>
@@ -1885,7 +1700,7 @@ function renderReviewsModal() {
         <div class="reviews-list">${reviewsHTML}</div>
     `;
 
-        buildModalStructure(reviewsModal, 'Értékelések', '', innerHTML);
+    buildModalStructure(reviewsModal, 'Értékelések', '', innerHTML);
 
     const newClose = reviewsModal.querySelector('.modal-close');
     if (newClose) newClose.addEventListener('click', closeReviewsModal);
@@ -1948,9 +1763,6 @@ resultModal.addEventListener('click', (e) => {
 });
 
 // ============================================
-// BROCHURE (Bemutatkozás)
-// ============================================
-// ============================================
 // BROCHURE STATE + HELPERS
 // ============================================
 let currentBrochureSalonId = null;
@@ -1990,7 +1802,6 @@ function openBrochure(salon) {
     syncBottomNavWithOverlays();
 }
 
-
 const brochurePortraits = [
     'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=800&auto=format&fit=crop',
     'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&auto=format&fit=crop',
@@ -2001,7 +1812,6 @@ const brochureSalonPhotos = [
     'https://raw.githubusercontent.com/hutamkos-dotcom/images/refs/heads/main/Bl_Sheffield.webp'
 ];
 
-// Galéria leíró szövegek tabonként
 const GALLERY_DESCRIPTIONS = {
     own: 'Kérlek nézd át az eddigi munkáim, és adj egy lehetőséget, hogy élőben is megmutassam tehetségem, munkám esztétikusságát és hosszan tartó minőségét.',
     candoit: 'Ezek nem a saját munkáim – inspirációként mentettem el őket, mert nagyon tetszenek. Ilyen körmöt még nem készítettem, de úgy érzem, a tudásom megvan hozzá, és szívesen megvalósítanám egy vendégemnél.'
@@ -2048,7 +1858,7 @@ function renderBrochureContent(name, address, portrait, salonPhoto) {
             <div class="brochure-cv-list">
                 <div class="brochure-cv-item">
                     <div class="brochure-cv-year">2012 – 2013</div>
-                    <div class="brochure-cv-content">
+                    <div class="brochure-cv-">
                         <div class="brochure-cv-title">Körömépítő OKJ képzés</div>
                         <div class="brochure-cv-place">Budapesti Szépségakadémia</div>
                     </div>
@@ -2114,7 +1924,7 @@ function renderBrochureContent(name, address, portrait, salonPhoto) {
                 <h3>Munkáim</h3>
             </div>
 
-                        <div class="brochure-gallery-tabs">
+            <div class="brochure-gallery-tabs">
                 <button class="brochure-gallery-tab ${brochureGalleryTab === 'own' ? 'active' : ''}" data-gallery-tab="own">Saját munkáim</button>
                 <button class="brochure-gallery-tab ${brochureGalleryTab === 'candoit' ? 'active' : ''}" data-gallery-tab="candoit">Mentett inspirációk</button>
             </div>
@@ -2128,7 +1938,6 @@ function renderBrochureContent(name, address, portrait, salonPhoto) {
                 <div class="brochure-gallery-dots-only">${dotsHTML}</div>
             </div>
 
-            <!-- Mentés + Megosztás gombok (egymás alatt) -->
             <div class="brochure-actions">
                 <button class="brochure-action-btn ${isLiked ? 'active' : ''}" id="brochureSaveBtn">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
@@ -2148,14 +1957,12 @@ function renderBrochureContent(name, address, portrait, salonPhoto) {
                 </button>
             </div>
 
-            <!-- Elköszönés -->
             <div class="brochure-farewell">
                 Köszönöm, hogy megnézted a bemutatkozásom.<br>
                 Kérdés esetén keress bátran.
             </div>
         </div>`;
 
-    // Tab kattintás
     brochureScroll.querySelectorAll('[data-gallery-tab]').forEach(btn => {
         btn.addEventListener('click', () => {
             const tab = btn.dataset.galleryTab;
@@ -2166,7 +1973,6 @@ function renderBrochureContent(name, address, portrait, salonPhoto) {
         });
     });
 
-    // Swipe és kattintás a viewporton
     const viewport = brochureScroll.querySelector('.brochure-gallery-viewport');
     if (viewport) {
         attachSwipeSimple(viewport, () => {
@@ -2186,7 +1992,6 @@ function renderBrochureContent(name, address, portrait, salonPhoto) {
         });
     }
 
-    // Dot kattintás
     brochureScroll.querySelectorAll('.brochure-gallery-dot').forEach((dot) => {
         dot.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -2195,7 +2000,6 @@ function renderBrochureContent(name, address, portrait, salonPhoto) {
         });
     });
 
-    // Mentés gomb
     const saveBtn = document.getElementById('brochureSaveBtn');
     if (saveBtn) {
         saveBtn.addEventListener('click', () => {
@@ -2208,7 +2012,6 @@ function renderBrochureContent(name, address, portrait, salonPhoto) {
         });
     }
 
-    // Megosztás gomb
     const shareBtn = document.getElementById('brochureShareBtnNew');
     if (shareBtn) {
         shareBtn.addEventListener('click', async () => {
@@ -2270,7 +2073,6 @@ function closeBrochure() {
     syncBottomNavWithOverlays();
 }
 
-// Felső X bezáró gomb
 const brochureCloseBtn = document.getElementById('brochureCloseBtn');
 if (brochureCloseBtn) {
     brochureCloseBtn.addEventListener('click', closeBrochure);
@@ -2279,8 +2081,6 @@ if (brochureCloseBtn) {
 brochureOverlay.addEventListener('click', (e) => {
     if (e.target === brochureOverlay) closeBrochure();
 });
-
-
 
 // ============================================
 // SWIPE
@@ -2418,7 +2218,6 @@ document.querySelectorAll('.menu-nav ul li a').forEach(link => {
                 lockBodyScroll();
                 syncBottomNavWithOverlays();
             }
-            else if (page === 'auto') { startAutoMode(); }
             else if (page === 'home') {
                 if (detailView.style.display === 'block') {
                     detailView.style.display = 'none';
@@ -2461,7 +2260,7 @@ contactOverlay.addEventListener('click', (e) => {
 });
 
 // ============================================
-// SEARCH - EGÉSZ oldal blur, trending lentebb a kereső kártyán
+// SEARCH
 // ============================================
 function showTrendingSuggestions() {
     const header = `<li class="suggestions-header">Felkapott keresések</li>`;
@@ -2581,7 +2380,6 @@ document.addEventListener('keydown', (e) => {
         document.body.classList.remove('search-focused');
         searchInput.blur();
         hideImageOverlay();
-        if (autoMode.classList.contains('active')) stopAutoMode();
         syncBottomNavWithOverlays();
     }
 });
@@ -2618,78 +2416,5 @@ stayLoggedIn.addEventListener('click', (e) => { e.preventDefault(); stayLoggedIn
 facebookLogin.addEventListener('click', () => showResult(`<h2>Facebook</h2><p>Hamarosan. 📘</p>`));
 googleLogin.addEventListener('click', () => showResult(`<h2>Google</h2><p>Hamarosan. 🔍</p>`));
 registerBtn.addEventListener('click', () => showResult(`<h2>Regisztráció</h2><p>Hamarosan. 💅</p>`));
-
-// ============================================
-// AUTO MODE
-// ============================================
-let autoActive = false;
-let autoScrollDirection = 1;
-let autoScrollRAF = null;
-let autoIntroTimer = null;
-let previousFilter = 'all';
-
-const AUTO_SCROLL_SPEED = 0.5;
-const AUTO_INTRO_DURATION = 7000;
-
-function autoScrollLoop() {
-    if (!autoActive) return;
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    const cur = window.scrollY;
-
-    if (autoScrollDirection === 1 && cur >= maxScroll - 1) autoScrollDirection = -1;
-    else if (autoScrollDirection === -1 && cur <= 1) autoScrollDirection = 1;
-
-    window.scrollBy(0, AUTO_SCROLL_SPEED * autoScrollDirection);
-    autoScrollRAF = requestAnimationFrame(autoScrollLoop);
-}
-
-function startAutoMode() {
-    if (autoActive) return;
-    autoActive = true;
-    autoScrollDirection = 1;
-
-    if (detailView.style.display === 'block') {
-        detailView.style.display = 'none';
-        mainView.style.display = 'block';
-        navigationHistory = [];
-    }
-
-    previousFilter = currentFilter;
-    setFilter('inspiration');
-
-    window.scrollTo({ top: 0, behavior: 'instant' });
-
-    autoIntro.classList.remove('fade-out');
-    autoMode.classList.add('active');
-    document.body.classList.add('auto-active');
-    syncBottomNavWithOverlays();
-
-    autoIntroTimer = setTimeout(() => {
-        autoIntro.classList.add('fade-out');
-        setTimeout(() => { if (autoActive) autoScrollRAF = requestAnimationFrame(autoScrollLoop); }, 900);
-    }, AUTO_INTRO_DURATION);
-}
-
-function stopAutoMode() {
-    if (!autoActive) return;
-    autoActive = false;
-    if (autoIntroTimer) { clearTimeout(autoIntroTimer); autoIntroTimer = null; }
-    if (autoScrollRAF) { cancelAnimationFrame(autoScrollRAF); autoScrollRAF = null; }
-    autoMode.classList.remove('active');
-    autoIntro.classList.remove('fade-out');
-    document.body.classList.remove('auto-active');
-    setFilter(previousFilter);
-    syncBottomNavWithOverlays();
-}
-
-['click', 'touchstart', 'keydown', 'mousedown', 'wheel'].forEach(ev => {
-    document.addEventListener(ev, (e) => {
-        if (autoActive) {
-            e.preventDefault?.();
-            e.stopPropagation?.();
-            stopAutoMode();
-        }
-    }, { capture: true });
-});
 
 console.log('✨ Nails1.hu betöltve – frissített verzió');
