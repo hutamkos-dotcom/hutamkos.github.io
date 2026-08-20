@@ -87,7 +87,6 @@
     --salon-icon-disabled-color: #c8c4bd;
     --salon-icon-disabled-border: #ede9e2;
 
-    /* Erősebb, telítettebb zöld és piros - világos módban */
     --status-open: #2d7a3e;
     --status-closed: #c62828;
     --status-available: #2d7a3e;
@@ -96,7 +95,6 @@
     --review-positive: #2d7a3e;
     --review-negative: #c62828;
 
-    /* Km színek - világos mód, erősebb */
     --km-green: #2d7a3e;
     --km-red: #c62828;
 }
@@ -164,68 +162,7 @@ body.theme-dark {
 
 
 /* ============================================ */
-/* CSS A5 - THEME: BLACK (kontrasztos téma)     */
-/* ============================================ */
-body.theme-black {
-    --page-bg: #ffffff;
-    --card-bg: #ffffff;
-    --text-primary: #000000;
-    --text-secondary: #4a4a4a;
-    --border-color: #000000;
-    --outer-bg: #000000;
-    --modal-content-bg: #ffffff;
-    --menu-list-border: #000000;
-    --list-item-bg: #ffffff;
-    --list-item-hover: #f5f5f5;
-    --fade-color: 255, 255, 255;
-    --modal-fade-rgb: 255, 255, 255;
-
-    --accent: #000000;
-    --accent-hover: #000000;
-
-    --btn-bg: #000000;
-    --btn-text: #ffffff;
-    --btn-hover-bg: #1a1a1a;
-
-    --logo-bg: #000000;
-    --logo-text: #ffffff;
-    --logo-border: #000000;
-
-    --menu-icon-color: #000000;
-    --menu-icon-shadow: none;
-    --menu-icon-thickness: 2px;
-
-    --bottom-nav-bg: #000000;
-    --bottom-nav-text: #ffffff;
-
-    --card-shadow: none;
-    --card-shadow-hover: none;
-    --card-shadow-large: none;
-
-    --salon-icon-bg: transparent;
-    --salon-icon-color: #000000;
-    --salon-icon-border: #000000;
-    --salon-icon-active-bg: #000000;
-    --salon-icon-active-color: #ffffff;
-    --salon-icon-active-border: #000000;
-    --salon-icon-disabled-color: #b0b0b0;
-    --salon-icon-disabled-border: #d0d0d0;
-
-    --status-open: #006400;
-    --status-closed: #8b0000;
-    --status-available: #006400;
-    --status-full: #8b0000;
-
-    --review-positive: #006400;
-    --review-negative: #8b0000;
-
-    --km-green: #006400;
-    --km-red: #8b0000;
-}
-
-
-/* ============================================ */
-/* CSS A6 - HTML / BODY globális beállítások    */
+/* CSS A5 - HTML / BODY globális beállítások    */
 /* ============================================ */
 html, body {
     font-family: 'Fraunces', serif;
@@ -247,7 +184,6 @@ body {
     min-height: 100vh;
 }
 
-/* CSS A6/1 - Modal nyitva állapot (body scroll lock) */
 body.modal-open {
     overflow: hidden !important;
     position: fixed;
@@ -256,12 +192,9 @@ body.modal-open {
     overscroll-behavior: none;
 }
 
-/* CSS A6/2 - Search focus mód (egész oldal blur, csak a kereső+suggestions éles) */
-
-
 
 /* ============================================ */
-/* CSS A7 - PHONE CONTAINER (fő keret)          */
+/* CSS A6 - PHONE CONTAINER (fő keret)          */
 /* ============================================ */
 .phone-container {
     position: relative;
@@ -273,7 +206,6 @@ body.modal-open {
     transition: background 0.4s ease;
 }
 
-/* CSS A7/1 - Desktop nézet (telefon keret) */
 @media (min-width: 500px) {
     .phone-container {
         border-radius: 45px;
@@ -282,7 +214,6 @@ body.modal-open {
     }
 }
 
-/* CSS A7/2 - Mobil nézet (teljes szélesség) */
 @media (max-width: 500px) {
     .phone-container {
         width: 100vw;
@@ -301,7 +232,6 @@ body.modal-open {
     transition: background 0.4s ease;
 }
 
-/* CSS B1/1 - Hero kártya konténer */
 .hero-card {
     position: relative;
     width: 100%;
@@ -313,7 +243,6 @@ body.modal-open {
     transition: box-shadow 0.4s ease;
 }
 
-/* CSS B1/2 - Hero háttérkép */
 .background-image {
     position: absolute;
     inset: 0;
@@ -324,7 +253,6 @@ body.modal-open {
     transition: opacity 0.5s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), filter 0.4s ease;
 }
 
-/* CSS B1/3 - Hero gradient overlay */
 .hero-gradient {
     position: absolute;
     left: 0; right: 0; bottom: 0;
@@ -340,7 +268,6 @@ body.modal-open {
     transition: filter 0.4s ease;
 }
 
-/* CSS B1/4 - Brand logó (N1 / Nails1.hu) */
 .brand-logo {
     position: absolute;
     top: var(--header-icon-top);
@@ -384,7 +311,6 @@ body.modal-open {
 .brand-logo.expanded .brand-logo-short { max-width: 0; opacity: 0; overflow: hidden; display: none; }
 .brand-logo.expanded .brand-logo-full { max-width: 130px; opacity: 1; transform: translateX(0); }
 
-/* CSS B1/5 - Hamburger menü gomb */
 .menu-btn {
     position: absolute;
     top: var(--header-icon-top);
@@ -413,7 +339,6 @@ body.modal-open {
     transition: all 0.3s ease;
 }
 
-/* CSS B1/6 - Hero tartalom wrapper */
 .hero-content {
     position: relative;
     z-index: 5;
@@ -428,7 +353,6 @@ body.modal-open {
 
 .hero-content > * { pointer-events: auto; }
 
-/* CSS B1/7 - Hero cím */
 .hero-title {
     text-align: center;
     color: #fff;
@@ -442,7 +366,6 @@ body.modal-open {
     transition: opacity 0.3s ease;
 }
 
-/* CSS B1/8 - Kereső mező */
 .search-section { position: relative; margin-bottom: 26px; z-index: 15; }
 
 .search-box {
@@ -487,7 +410,6 @@ body.modal-open {
     right: 0; top: 0;
 }
 
-/* CSS B1/9 - Kereső javaslatok legördülő */
 .suggestions {
     position: absolute;
     top: calc(100% + 6px);
@@ -546,7 +468,6 @@ body.search-focused .suggestions {
 .suggestions li:last-child { border-bottom: none; }
 .suggestions li:hover:not(.suggestions-header) { background: #f5f1eb; }
 
-/* CSS B1/10 - Idézet blokk */
 .quote-anchor { position: relative; height: var(--quote-anchor-height); width: 100%; transition: opacity 0.3s ease; }
 
 .quote-section {
@@ -584,7 +505,7 @@ body.search-focused .suggestions {
 
 
 /* ============================================ */
-/* CSS B2 - FILTER BAR (szűrő sáv)              */
+/* CSS B2 - FILTER BAR                          */
 /* ============================================ */
 .filter-section {
     padding: var(--gap) var(--gap) 0 var(--gap);
@@ -659,7 +580,7 @@ body.search-focused .suggestions {
 
 
 /* ============================================ */
-/* CSS B3 - MASONRY GRID (kártyák)              */
+/* CSS B3 - MASONRY GRID                        */
 /* ============================================ */
 .masonry-section {
     padding: var(--gap);
@@ -706,7 +627,6 @@ body.search-focused .suggestions {
     transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* CSS B3/1 - Kártya magasság variációk */
 .masonry-card-image.h1 { height: 180px; }
 .masonry-card-image.h2 { height: 220px; }
 .masonry-card-image.h3 { height: 160px; }
@@ -714,7 +634,6 @@ body.search-focused .suggestions {
 .masonry-card-image.h5 { height: 200px; }
 .masonry-card-image.h6 { height: 240px; }
 
-/* CSS B3/2 - Kártya háttér gradiensek (placeholder) */
 .bg-pink { background: linear-gradient(135deg, #f4d3c8 0%, #e8b8a5 100%); }
 .bg-purple { background: linear-gradient(135deg, #d4c5d9 0%, #b8a8c4 100%); }
 .bg-peach { background: linear-gradient(135deg, #f5dcc4 0%, #e8b892 100%); }
@@ -728,8 +647,9 @@ body.search-focused .suggestions {
 .bg-plum { background: linear-gradient(135deg, #a89098 0%, #806870 100%); }
 .bg-blush { background: linear-gradient(135deg, #f0d4d0 0%, #d8b0ac 100%); }
 
+
 /* ============================================ */
-/* CSS C1 - DETAIL VIEW (részletes nézet)       */
+/* CSS C1 - DETAIL VIEW                         */
 /* ============================================ */
 .detail-view {
     width: 100%;
@@ -749,7 +669,7 @@ body.search-focused .suggestions {
 
 
 /* ============================================ */
-/* CSS C2 - DETAIL IMAGE CARD (kép kártya)      */
+/* CSS C2 - DETAIL IMAGE CARD                   */
 /* ============================================ */
 .detail-hero { padding: 0; }
 
@@ -771,7 +691,6 @@ body.search-focused .suggestions {
     background-position: center;
 }
 
-/* CSS C2/1 - Kép overlay (info panel) */
 .detail-image-overlay {
     position: absolute;
     inset: 0;
@@ -836,7 +755,6 @@ body.search-focused .suggestions {
 }
 .detail-image-info .info-meta span { display: block; margin-bottom: 4px; }
 
-/* CSS C2/2 - Kép ikonok (vissza, kedvenc, megosztás) */
 .detail-icons {
     position: absolute;
     right: 16px; bottom: 20px;
@@ -867,7 +785,6 @@ body.search-focused .suggestions {
     stroke: var(--like-color); 
 }
 
-/* CSS C2/3 - Akció badge (tooltip ikonok mellett) */
 .action-badge {
     position: absolute;
     top: 50%;
@@ -904,7 +821,7 @@ body.search-focused .suggestions {
 
 
 /* ============================================ */
-/* CSS C3 - DETAIL TEXT & LIST CARD (közös)     */
+/* CSS C3 - DETAIL TEXT & LIST CARD             */
 /* ============================================ */
 .detail-text-card,
 .detail-list-card {
@@ -925,14 +842,12 @@ body.search-focused .suggestions {
     touch-action: pan-y;
 }
 
-/* CSS C3/1 - Kártya összecsukott állapot */
 .detail-text-card.collapsed,
 .detail-list-card.collapsed {
     height: var(--detail-collapsed-height);
     padding: 8px;
 }
 
-/* CSS C3/2 - Cím sáv */
 .detail-title-bar {
     display: flex;
     align-items: center;
@@ -951,7 +866,6 @@ body.search-focused .suggestions {
 
 .detail-title-bar.no-arrows .detail-title-arrow { display: none; }
 
-/* CSS C3/3 - Összecsukott állapot gomb */
 .detail-collapsed-btn {
     display: none;
     width: 100%;
@@ -975,7 +889,6 @@ body.search-focused .suggestions {
 
 .detail-collapsed-btn:hover { background: var(--btn-hover-bg); }
 
-/* CSS C3/4 - Collapsed állapot szabályok */
 .detail-text-card.collapsed .detail-title-bar,
 .detail-list-card.collapsed .detail-categories-wrap {
     opacity: 0;
@@ -1007,7 +920,6 @@ body.search-focused .suggestions {
     display: none;
 }
 
-/* CSS C3/5 - Cím nyilak */
 .detail-title-arrow {
     background: transparent;
     border: none;
@@ -1048,7 +960,6 @@ body.search-focused .suggestions {
 
 .detail-title.fade-out { opacity: 0; }
 
-/* CSS C3/6 - Görgethető tartalom wrapper */
 .detail-description-wrapper,
 .detail-list-wrapper {
     position: relative;
@@ -1084,7 +995,6 @@ body.search-focused .suggestions {
     transition: color 0.4s ease;
 }
 
-/* CSS C3/7 - Fade zónák (felső/alsó elmosás) */
 .detail-fade-top {
     position: absolute;
     left: 8px; right: 8px;
@@ -1117,7 +1027,6 @@ body.search-focused .suggestions {
     z-index: 3;
 }
 
-/* CSS C3/8 - Összecsukó nyíl */
 .detail-collapse-arrow {
     background: transparent;
     border: none;
@@ -1131,12 +1040,9 @@ body.search-focused .suggestions {
 }
 
 body.theme-dark .detail-collapse-arrow { color: rgba(245,241,235,0.4); }
-body.theme-black .detail-collapse-arrow { color: rgba(0,0,0,0.5); }
 .detail-collapse-arrow:hover { color: rgba(0,0,0,0.7); transform: translateY(-2px); }
 body.theme-dark .detail-collapse-arrow:hover { color: rgba(245,241,235,0.9); }
-body.theme-black .detail-collapse-arrow:hover { color: rgba(0,0,0,0.9); }
 
-/* CSS C3/9 - Edge zónák (oldal érintés navigáció) */
 .detail-edge-zone {
     position: absolute;
     top: var(--detail-btn-height);
@@ -1151,7 +1057,7 @@ body.theme-black .detail-collapse-arrow:hover { color: rgba(0,0,0,0.9); }
 
 
 /* ============================================ */
-/* CSS C4 - DETAIL CATEGORIES (kategória gombok)*/
+/* CSS C4 - DETAIL CATEGORIES                   */
 /* ============================================ */
 .detail-categories-wrap {
     height: var(--detail-btn-height);
@@ -1207,7 +1113,7 @@ body.theme-black .detail-collapse-arrow:hover { color: rgba(0,0,0,0.9); }
 
 
 /* ============================================ */
-/* CSS C5 - DETAIL LIST ITEMS (lista elemek)    */
+/* CSS C5 - DETAIL LIST ITEMS                   */
 /* ============================================ */
 .detail-list { display: flex; flex-direction: column; gap: 8px; }
 
@@ -1243,7 +1149,6 @@ body.theme-black .detail-collapse-arrow:hover { color: rgba(0,0,0,0.9); }
     gap: 6px;
 }
 
-/* CSS C5/1 - Km távolság színátmenet */
 .detail-list-km {
     font-size: 9.5px;
     font-weight: 300;
@@ -1281,19 +1186,6 @@ body.theme-dark .detail-list-km.km-9,
 body.theme-dark .detail-list-km.km-10,
 body.theme-dark .detail-list-km.km-far { color: var(--km-red); }
 
-body.theme-black .detail-list-km.km-1,
-body.theme-black .detail-list-km.km-2,
-body.theme-black .detail-list-km.km-3 { color: var(--km-green); }
-body.theme-black .detail-list-km.km-4,
-body.theme-black .detail-list-km.km-5,
-body.theme-black .detail-list-km.km-6,
-body.theme-black .detail-list-km.km-7 { color: #000000; }
-body.theme-black .detail-list-km.km-8,
-body.theme-black .detail-list-km.km-9,
-body.theme-black .detail-list-km.km-10,
-body.theme-black .detail-list-km.km-far { color: var(--km-red); }
-
-/* CSS C5/2 - Nyitva/Zárva státusz */
 .detail-list-status {
     font-size: 9.5px;
     font-weight: 400;
@@ -1308,7 +1200,6 @@ body.theme-black .detail-list-km.km-far { color: var(--km-red); }
 .detail-list-status.open { color: var(--status-open); }
 .detail-list-status.closed { color: var(--status-closed); }
 
-/* CSS C5/3 - Lista elem név */
 .detail-list-name {
     flex: 1;
     min-width: 0;
@@ -1330,7 +1221,6 @@ body.theme-black .detail-list-km.km-far { color: var(--km-red); }
     visibility: hidden;
 }
 
-/* CSS C5/4 - Kinyíló részletek */
 .detail-list-details {
     max-height: 0;
     opacity: 0;
@@ -1374,7 +1264,6 @@ body.theme-black .detail-list-km.km-far { color: var(--km-red); }
 
 .detail-list-action:hover { background: var(--btn-hover-bg); }
 
-/* CSS C5/5 - Nézettségek & értékelések sor */
 .detail-list-stats-row {
     display: flex;
     justify-content: space-between;
@@ -1420,7 +1309,7 @@ body.theme-black .detail-list-km.km-far { color: var(--km-red); }
 
 
 /* ============================================ */
-/* CSS C6 - SALON ICONS ROW (info ikonok)       */
+/* CSS C6 - SALON ICONS ROW                     */
 /* ============================================ */
 .salon-icon-row {
     display: grid;
@@ -1493,7 +1382,6 @@ body.theme-black .detail-list-km.km-far { color: var(--km-red); }
     transform: none;
 }
 
-/* CSS C6/1 - Ikon hint üzenet (2.5s) */
 .salon-icon-hint {
     text-align: center;
     font-family: 'Fraunces', serif;
@@ -1518,7 +1406,7 @@ body.theme-black .detail-list-km.km-far { color: var(--km-red); }
 
 
 /* ============================================ */
-/* CSS C7 - SALON CONTENT (dinamikus tartalom)  */
+/* CSS C7 - SALON CONTENT                       */
 /* ============================================ */
 .salon-content {
     width: 100%;
@@ -1561,7 +1449,6 @@ a.salon-content-btn {
     text-decoration: none;
 }
 
-/* CSS C7/1 - Nyitvatartás navigátor */
 .salon-hours-nav {
     width: 100%;
     height: 38px;
@@ -1608,12 +1495,10 @@ a.salon-content-btn {
 .salon-hours-text .day-name { font-weight: 500; }
 .salon-hours-text .day-time { margin-left: 8px; opacity: 0.75; font-weight: 400; }
 
-/* CSS C7/2 - Kalendár foglaltság színek */
 .salon-hours-text .cal-booked.available { color: var(--km-green); font-weight: 500; opacity: 1; }
 .salon-hours-text .cal-booked.full { color: var(--km-red); font-weight: 500; opacity: 1; }
 .salon-hours-text .cal-booked.closed-cal { color: var(--btn-text); opacity: 0.6; }
 
-/* CSS C7/3 - Ár kijelző */
 .salon-price-display {
     width: 100%;
     height: 38px;
@@ -1647,7 +1532,7 @@ a.salon-content-btn {
 
 
 /* ============================================ */
-/* CSS C8 - DETAIL MASONRY (alsó kártyák)       */
+/* CSS C8 - DETAIL MASONRY                      */
 /* ============================================ */
 .detail-masonry { margin-top: 0; padding: 0 var(--gap) var(--gap) var(--gap); }
 
@@ -1671,7 +1556,6 @@ a.salon-content-btn {
     transition: box-shadow 0.4s ease;
 }
 
-/* CSS D1/1 - Login háttér + overlay */
 .login-background {
     position: absolute;
     inset: 0;
@@ -1694,7 +1578,6 @@ a.salon-content-btn {
     z-index: 2; 
 }
 
-/* CSS D1/2 - Login form tartalom */
 .login-content {
     position: relative;
     z-index: 5;
@@ -1720,7 +1603,6 @@ a.salon-content-btn {
     margin-bottom: 10px;
 }
 
-/* CSS D1/3 - Input mezők */
 .login-input-wrapper {
     position: relative;
     width: 100%;
@@ -1767,7 +1649,6 @@ a.salon-content-btn {
 
 .password-toggle.active svg rect { fill: #1a1a1a; }
 
-/* CSS D1/4 - Login linkek + spacerek */
 .login-links {
     display: flex;
     justify-content: center;
@@ -1795,7 +1676,6 @@ a.salon-content-btn {
 .login-spacer-small { flex: 0.5; min-height: 16px; }
 .login-middle-block { display: flex; flex-direction: column; gap: 14px; }
 
-/* CSS D1/5 - Login gombok */
 .login-btn {
     width: 100%;
     height: 42px;
@@ -1847,7 +1727,7 @@ a.salon-content-btn {
 
 
 /* ============================================ */
-/* CSS E1 - BOTTOM NAV (alsó navigáció)         */
+/* CSS E1 - BOTTOM NAV                          */
 /* ============================================ */
 .bottom-nav {
     position: fixed;
@@ -1889,81 +1769,6 @@ a.salon-content-btn {
 .bottom-nav-btn:active { transform: scale(0.9); }
 .bottom-nav-btn svg { width: 20px; height: 20px; pointer-events: none; stroke: #ffffff; stroke-width: 1.75; }
 
-/* CSS E2 - AUTO MODE (kirakat mód) */
-.auto-mode {
-    position: fixed;
-    inset: 0;
-    background: rgba(10, 10, 10, 0.97);
-    z-index: 9999;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    animation: fadeIn 0.3s ease;
-    overscroll-behavior: contain;
-    touch-action: none;
-}
-
-.auto-mode.active { display: flex; }
-
-.auto-intro {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    padding: 40px 32px;
-    transition: opacity 0.9s ease;
-}
-
-.auto-intro.fade-out { opacity: 0; }
-
-.auto-intro-inner {
-    text-align: center;
-    color: #f5f1eb;
-    max-width: 320px;
-}
-
-.auto-intro-logo {
-    font-family: 'Fraunces', serif;
-    font-size: 42px;
-    font-weight: 300;
-    letter-spacing: -0.02em;
-    margin-bottom: 8px;
-    color: #fff;
-}
-
-.auto-intro-logo span { color: rgba(245,241,235,0.5); }
-
-.auto-intro-sub {
-    font-family: 'Fraunces', serif;
-    font-size: 11px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: rgba(245,241,235,0.55);
-    margin-bottom: 36px;
-    font-weight: 500;
-}
-
-.auto-intro-text p {
-    font-family: 'Fraunces', serif;
-    font-size: 13px;
-    line-height: 1.75;
-    color: rgba(245,241,235,0.85);
-    margin-bottom: 14px;
-    font-weight: 300;
-    text-align: justify;
-    letter-spacing: -0.005em;
-}
-
-.auto-intro-hint {
-    font-family: 'Fraunces', serif;
-    font-size: 10.5px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(245,241,235,0.4);
-    margin-top: 32px;
-    font-weight: 400;
-}
 
 /* ============================================ */
 /* CSS F1 - MODAL - KÖZÖS ALAPOK                */
@@ -1988,7 +1793,6 @@ a.salon-content-btn {
 
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-/* CSS F1/1 - Modal tartalom keret */
 .modal-content {
     background: var(--modal-content-bg);
     width: 100%;
@@ -2007,7 +1811,6 @@ a.salon-content-btn {
     overscroll-behavior: contain;
 }
 
-/* CSS F1/2 - Modal fejléc */
 .modal-header {
     position: relative;
     flex-shrink: 0;
@@ -2037,7 +1840,6 @@ a.salon-content-btn {
     font-weight: 400;
 }
 
-/* CSS F1/3 - Modal görgethető test */
 .modal-body {
     position: relative;
     flex: 1;
@@ -2061,7 +1863,6 @@ a.salon-content-btn {
 
 .modal-body-scroll::-webkit-scrollbar { display: none; }
 
-/* CSS F1/4 - Modal fade zónák (felső/alsó) */
 .modal-fade-top {
     position: absolute;
     left: 0; 
@@ -2094,7 +1895,6 @@ a.salon-content-btn {
     flex-shrink: 0;
 }
 
-/* CSS F1/5 - Speciális modal méretek */
 .reviews-modal-content {
     max-width: 373px;
     width: calc(100vw - 20px);
@@ -2140,7 +1940,6 @@ a.salon-content-btn {
     to { transform: scale(1) translateY(0); opacity: 1; }
 }
 
-/* CSS F1/6 - Modal bezáró gomb */
 .modal-close {
     position: absolute;
     top: 10px; right: 14px;
@@ -2161,7 +1960,7 @@ a.salon-content-btn {
 
 
 /* ============================================ */
-/* CSS F2 - MENU MODAL (hamburger menü)         */
+/* CSS F2 - MENU MODAL                          */
 /* ============================================ */
 .menu-modal-content .menu-header {
     padding: 26px 32px 20px 32px;
@@ -2205,7 +2004,7 @@ a.salon-content-btn {
 
 
 /* ============================================ */
-/* CSS F3 - RESULT MODAL (általános eredmény)   */
+/* CSS F3 - RESULT MODAL                        */
 /* ============================================ */
 #resultContent p { 
     font-size: 13.5px; 
@@ -2246,7 +2045,7 @@ a.salon-content-btn {
 
 
 /* ============================================ */
-/* CSS F4 - PRICE INFO MODAL (ár információ)    */
+/* CSS F4 - PRICE INFO MODAL                    */
 /* ============================================ */
 .price-info-stats {
     display: grid;
@@ -2332,7 +2131,6 @@ a.salon-content-btn {
     font-weight: 600;
 }
 
-/* CSS F4/1 - Szolgáltatás lista */
 .price-service-list {
     margin: 4px 0 16px 0;
     padding: 14px 16px;
@@ -2356,14 +2154,14 @@ a.salon-content-btn {
 
 .price-service-name {
     color: var(--text-primary);
-    font-weight: 400;
+    font-weight: 200;
     text-align: left;
     letter-spacing: -0.005em;
 }
 
 .price-service-price {
     color: var(--text-primary);
-    font-weight: 500;
+    font-weight: 200;
     letter-spacing: -0.005em;
     white-space: nowrap;
     text-align: right;
@@ -2374,11 +2172,6 @@ a.salon-content-btn {
     margin-top: 4px;
 }
 
-/* ============================================ */
-/* CSS F4 - PRICE INFO MODAL (frissített)       */
-/* ============================================ */
-
-/* Régió átlaga - kiemelt, felül */
 .price-info-region-top {
     margin: 4px 0 14px 0;
     background: var(--btn-bg);
@@ -2416,7 +2209,6 @@ a.salon-content-btn {
     font-weight: 400;
 }
 
-/* CSS F4/3 - Szalon kártya (kiemelt középső blokk) */
 .price-info-salon-card {
     background: var(--list-item-hover);
     border: 1px solid var(--border-color);
@@ -2438,7 +2230,6 @@ a.salon-content-btn {
     line-height: 1.2;
 }
 
-/* Átlag és medián EGY SORBAN, középre */
 .price-info-salon-card .price-info-stats {
     background: transparent;
     border: none;
@@ -2496,7 +2287,6 @@ a.salon-content-btn {
     margin: 0;
 }
 
-/* CSS F4/4 - Szekció címsorok a magyarázatokhoz */
 .price-info-section-heading {
     font-family: 'Fraunces', serif;
     font-size: 12.5px;
@@ -2514,93 +2304,9 @@ a.salon-content-btn {
     margin-top: 8px;
 }
 
-/* CSS F4/1 - Szolgáltatás lista */
-.price-service-list {
-    margin: 4px 0 16px 0;
-    padding: 14px 16px;
-    background: var(--list-item-hover);
-    border-radius: var(--radius-xs);
-    border: 1px solid var(--border-color);
-}
-
-.price-service-item {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border-color);
-    font-family: 'Fraunces', serif;
-    font-size: 12.5px;
-}
-
-.price-service-item:last-child { border-bottom: none; }
-
-.price-service-name {
-    color: var(--text-primary);
-    font-weight: 400;
-    text-align: left;
-    letter-spacing: -0.005em;
-}
-
-.price-service-price {
-    color: var(--text-primary);
-    font-weight: 500;
-    letter-spacing: -0.005em;
-    white-space: nowrap;
-    text-align: right;
-    min-width: 65px;
-}
-
-.price-info-desc-block {
-    margin-top: 4px;
-}
-
-/* CSS F4/1 - Szolgáltatás lista */
-.price-service-list {
-    margin: 4px 0 16px 0;
-    padding: 14px 16px;
-    background: var(--list-item-hover);
-    border-radius: var(--radius-xs);
-    border: 1px solid var(--border-color);
-}
-
-.price-service-item {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border-color);
-    font-family: 'Fraunces', serif;
-    font-size: 12.5px;
-}
-
-.price-service-item:last-child { border-bottom: none; }
-
-.price-service-name {
-    color: var(--text-primary);
-    font-weight: 200;
-    text-align: left;
-    letter-spacing: -0.005em;
-}
-
-.price-service-price {
-    color: var(--text-primary);
-    font-weight: 200;
-    letter-spacing: -0.005em;
-    white-space: nowrap;
-    text-align: right;
-    min-width: 65px;
-}
-
-.price-info-desc-block {
-    margin-top: 4px;
-}
-
 
 /* ============================================ */
-/* CSS F5 - REVIEWS MODAL (értékelések)         */
+/* CSS F5 - REVIEWS MODAL                       */
 /* ============================================ */
 .reviews-summary {
     text-align: center;
@@ -2650,7 +2356,6 @@ a.salon-content-btn {
     letter-spacing: 0.02em;
 }
 
-/* CSS F5/1 - Reviews filter gombok */
 .reviews-filter {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -2704,7 +2409,6 @@ a.salon-content-btn {
 
 .reviews-filter-btn.active .dot { background: #fff; }
 
-/* CSS F5/2 - Review elemek */
 .reviews-list {
     display: flex;
     flex-direction: column;
@@ -2828,7 +2532,6 @@ a.salon-content-btn {
     touch-action: pan-y;
 }
 
-/* CSS G1/1 - Fullscreen fejléc */
 .fullscreen-header {
     position: relative;
     flex-shrink: 0;
@@ -2862,7 +2565,6 @@ a.salon-content-btn {
 
 .fullscreen-close:hover { opacity: 0.6; }
 
-/* CSS G1/2 - Fullscreen görgethető törzs */
 .fullscreen-body {
     position: relative;
     flex: 1;
@@ -2885,7 +2587,6 @@ a.salon-content-btn {
 
 .fullscreen-scroll::-webkit-scrollbar { display: none; }
 
-/* CSS G1/3 - Fullscreen fade zónák */
 .fullscreen-fade-top,
 .fullscreen-fade-bottom {
     position: absolute;
@@ -2922,7 +2623,6 @@ a.salon-content-btn {
 
 .fullscreen-text strong { font-weight: 500; color: var(--text-primary); }
 
-/* CSS G1/4 - Contact info doboz */
 .contact-info {
     display: flex;
     flex-direction: column;
@@ -2963,128 +2663,8 @@ a.salon-content-btn {
 
 
 /* ============================================ */
-/* CSS H1 - BROCHURE OVERLAY (prospektus)       */
+/* CSS H1 - BROCHURE OVERLAY                    */
 /* ============================================ */
-.brochure-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(15,15,15,0.75);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 2500;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    animation: fadeIn 0.3s ease;
-    overscroll-behavior: contain;
-    touch-action: none;
-}
-
-.brochure-overlay.active { display: flex; }
-
-.brochure-card {
-    position: relative;
-    background: #0a0a0a;
-    max-width: 373px;
-    width: calc(100vw - 20px);
-    height: calc(100vh - 40px);
-    max-height: 780px;
-    border-radius: var(--radius-xs);
-    overflow: hidden;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-    animation: modalPopIn 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-    display: flex;
-    flex-direction: column;
-    touch-action: pan-y;
-}
-
-/* CSS H1/1 - Brochure ikonok */
-.brochure-icons {
-    position: absolute;
-    right: 16px; bottom: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    z-index: 20;
-}
-
-.brochure-icon-btn { position: relative; }
-
-/* CSS H1/2 - Brochure görgethető tartalom */
-.brochure-scroll {
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    scrollbar-width: none;
-    background: #0a0a0a;
-    color: #f5f1eb;
-    border-radius: var(--radius-xs);
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
-}
-
-.brochure-scroll::-webkit-scrollbar { display: none; }
-.brochure-inner { padding-bottom: 40px; }
-
-/* CSS H1/3 - Brochure portré hero */
-.brochure-hero-portrait {
-    position: relative;
-    width: 100%;
-    height: 340px;
-    overflow: hidden;
-}
-
-.brochure-hero-portrait-img {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center top;
-}
-
-.brochure-hero-portrait-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom,
-        rgba(0,0,0,0.15) 0%,
-        rgba(0,0,0,0.05) 40%,
-        rgba(10,10,10,0.95) 100%);
-    display: flex;
-    align-items: flex-end;
-    padding: 32px 24px 22px 24px;
-}
-
-.brochure-hero-title-block .subtitle {
-    color: rgba(245,241,235,0.7);
-    font-size: 10.5px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-    font-weight: 500;
-    font-family: 'Fraunces', serif;
-}
-
-.brochure-hero-title-block .name {
-    color: #fff;
-    font-family: 'Fraunces', serif;
-    font-size: 26px;
-    font-weight: 400;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    text-shadow: 0 2px 12px rgba(0,0,0,0.6);
-    margin-bottom: 6px;
-}
-
-.brochure-hero-title-block .role {
-    color: rgba(245,241,235,0.85);
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    font-family: 'Fraunces', serif;
-    font-weight: 400;
-}
-
-/* CSS H1 - BROCHURE OVERLAY (prospektus) */
 .brochure-overlay {
     position: fixed;
     inset: 0;
@@ -3119,7 +2699,6 @@ a.salon-content-btn {
     touch-action: pan-y;
 }
 
-/* CSS H1/1 - Felső X bezáró gomb */
 .brochure-close-btn {
     position: absolute;
     top: 10px; 
@@ -3140,7 +2719,6 @@ a.salon-content-btn {
 
 .brochure-close-btn:hover { opacity: 0.6; }
 
-/* CSS H1/2 - Brochure görgethető tartalom */
 .brochure-scroll {
     width: 100%;
     height: 100%;
@@ -3156,7 +2734,6 @@ a.salon-content-btn {
 .brochure-scroll::-webkit-scrollbar { display: none; }
 .brochure-inner { padding-bottom: 40px; }
 
-/* CSS H1/3 - Brochure portré hero */
 .brochure-hero-portrait {
     position: relative;
     width: 100%;
@@ -3213,7 +2790,6 @@ a.salon-content-btn {
     font-weight: 400;
 }
 
-/* CSS H1/4 - Brochure szekciók */
 .brochure-section { padding: 26px 24px 6px 24px; }
 
 .brochure-section h3 {
@@ -3237,7 +2813,6 @@ a.salon-content-btn {
     letter-spacing: -0.005em;
 }
 
-/* CSS H1/5 - Brochure CV lista */
 .brochure-cv-list {
     padding: 8px 24px 6px 24px;
 }
@@ -3285,7 +2860,6 @@ a.salon-content-btn {
     font-family: 'Fraunces', serif;
 }
 
-/* Szalon fotó - margókkal (ne érjen ki a szélig) */
 .brochure-salon-photo {
     width: calc(100% - 48px);
     height: 220px;
@@ -3295,7 +2869,6 @@ a.salon-content-btn {
     border-radius: var(--radius-xs);
 }
 
-/* CSS H1/6 - Brochure galéria carousel */
 .brochure-gallery-carousel {
     position: relative;
     padding: 12px 24px 8px 24px;
@@ -3344,7 +2917,6 @@ a.salon-content-btn {
     transform: scale(1.35);
 }
 
-/* CSS H1/7 - Brochure galéria tabok */
 .brochure-gallery-tabs {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -3374,7 +2946,6 @@ a.salon-content-btn {
     border-color: #f5f1eb;
 }
 
-/* Galéria leíró szöveg (tabok után, kép előtt) */
 .brochure-gallery-description {
     padding: 14px 24px 4px 24px;
     font-family: 'Fraunces', serif;
@@ -3387,7 +2958,6 @@ a.salon-content-btn {
     font-style: italic;
 }
 
-/* CSS H1/8 - Akció gombok (egymás alatt, teljes szélességben) */
 .brochure-actions {
     display: flex;
     flex-direction: column;
@@ -3435,7 +3005,6 @@ a.salon-content-btn {
     fill: currentColor;
 }
 
-/* Elköszönő szöveg */
 .brochure-farewell {
     padding: 20px 24px 30px 24px;
     text-align: center;
