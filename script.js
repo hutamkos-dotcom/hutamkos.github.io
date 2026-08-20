@@ -726,6 +726,13 @@ function generateReviewerName(seed, i) {
     return `${HU_FIRST_NAMES[firstIdx]} ${HU_LAST_INITIALS[lastIdx]}`;
 }
 
+function getSalonVerdict(percent) {
+    if (percent >= 85) return { text: 'Nagy valószínűséggel kiváló szakember.', cls: 'verdict-positive' };
+    if (percent >= 70) return { text: 'Többnyire pozitív visszajelzések, de érdemes utánanézni.', cls: 'verdict-mixed' };
+    if (percent >= 50) return { text: 'Vegyes visszajelzések – a döntés előtt olvasd el a véleményeket.', cls: 'verdict-mixed' };
+    return { text: 'Több negatív visszajelzés érkezett – körültekintően válaszd.', cls: 'verdict-negative' };
+}
+
 function getSalonReviews(salonId) {
     const seed = hashString(salonId + '_reviews');
     const total = 30 + (seed % 90);
@@ -1650,72 +1657,88 @@ function renderReviewsModal() {
     if (!currentReviewsSalonId) return;
     const data = getSalonReviews(currentReviewsSalonId);
     const items = categoryLists[currentCategory] || [];
-    const item = items.find(s => s.id === currentReviewsSalonId);
+    const item = items.find(function(s) { return s.id === currentReviewsSalonId; });
     const salonName = item ? item.name : 'Szolgáltató';
 
-    let filtered;
+    var posClass = '';
+    var negClass = '';
+    if (currentReviewsFilter === 'positive') { posClass = 'active positive'; }
+    if (currentReviewsFilter === 'negative') { negClass = 'active negative'; }
+
+    var filtered = [];
     if (currentReviewsFilter === 'positive') {
-        filtered = data.reviews.filter(r => r.type === 'positive');
+        filtered = data.reviews.filter(function(r) { return r.type === 'positive'; });
     } else if (currentReviewsFilter === 'negative') {
-        filtered = data.reviews.filter(r => r.type === 'negative');
+        filtered = data.reviews.filter(function(r) { return r.type === 'negative'; });
     } else {
-        const pos = data.reviews.filter(r => r.type === 'positive');
-        const neg = data.reviews.filter(r => r.type === 'negative');
-        filtered = [];
-        const max = Math.max(pos.length, neg.length);
-        for (let i = 0; i < max; i++) {
+        var pos = data.reviews.filter(function(r) { return r.type === 'positive'; });
+        var neg = data.reviews.filter(function(r) { return r.type === 'negative'; });
+        var maxLen = Math.max(pos.length, neg.length);
+        for (var i = 0; i < maxLen; i++) {
             if (pos[i]) filtered.push(pos[i]);
             if (neg[i]) filtered.push(neg[i]);
         }
     }
 
-    const reviewsHTML = filtered.length > 0
-        ? filtered.map(r => `
-            <div class="review-item ${r.type}">
-                <div class="review-item-header">
-                    <span class="review-item-author">${r.author}</span>
-                    <span class="review-item-badge">${r.type === 'positive' ? 'Pozitív' : 'Negatív'}</span>
-                </div>
-                <div class="review-item-date">${r.date}</div>
-                <div class="review-item-text">${r.text}</div>
-            </div>
-        `).join('')
-        : '<p style="text-align:center; padding: 20px 0; color: var(--text-secondary);">Nincs megjeleníthető értékelés.</p>';
+    var reviewsHTML = '';
+    if (filtered.length > 0) {
+        filtered.forEach(function(r) {
+            var badgeText = r.type === 'positive' ? 'Pozitív' : 'Negatív';
+            reviewsHTML += '<div class="review-item ' + r.type + '">';
+            reviewsHTML += '<div class="review-item-header">';
+            reviewsHTML += '<span class="review-item-author">' + r.author + '</span>';
+            reviewsHTML += '<span class="review-item-badge">' + badgeText + '</span>';
+            reviewsHTML += '</div>';
+            reviewsHTML += '<div class="review-item-date">' + r.date + '</div>';
+            reviewsHTML += '<div class="review-item-text">' + r.text + '</div>';
+            reviewsHTML += '</div>';
+        });
+    } else {
+        reviewsHTML = '<p style="text-align:center; padding: 20px 0; color: var(--text-secondary);">Nincs megjeleníthető értékelés.</p>';
+    }
 
-    const innerHTML = `
-        <div class="reviews-summary">
-            <div class="reviews-summary-salon-name">${salonName}</div>
-            <div class="reviews-summary-percent">${data.percent}%</div>
-            <div class="reviews-summary-label">Pozitív értékelés</div>
-            <div class="reviews-summary-count">Összesen ${data.total} vélemény · ${data.positiveCount} pozitív · ${data.negativeCount} negatív</div>
-        </div>
-        <div class="reviews-filter">
-            <button class="reviews-filter-btn ${currentReviewsFilter === 'positive' ? 'active positive' : ''}" data-review-filter="positive">
-                <span class="dot pos-dot"></span> Pozitív (${data.positiveCount})
-            </button>
-            <button class="reviews-filter-btn ${currentReviewsFilter === 'negative' ? 'active negative' : ''}" data-review-filter="negative">
-                <span class="dot neg-dot"></span> Negatív (${data.negativeCount})
-            </button>
-        </div>
-        <div class="reviews-list">${reviewsHTML}</div>
-    `;
+    var verdict = getSalonVerdict(data.percent);
+    var avgStars = Math.round(data.percent / 20);
+    var starsHTML = '';
+    for (var si = 1; si <= 5; si++) {
+        starsHTML += '<span class="summary-star ' + (si <= avgStars ? 'filled' : '') + '">★</span>';
+    }
+
+    var innerHTML = '';
+    innerHTML += '<div class="reviews-summary">';
+    innerHTML += '<div class="reviews-summary-salon-name">' + salonName + '</div>';
+    innerHTML += '<div class="reviews-summary-stars">' + starsHTML + '</div>';
+    innerHTML += '<div class="reviews-summary-percent">' + data.percent + '%</div>';
+    innerHTML += '<div class="reviews-summary-label">Pozitív értékelés</div>';
+    innerHTML += '<div class="reviews-summary-count">Összesen ' + data.total + ' vélemény · ' + data.positiveCount + ' pozitív · ' + data.negativeCount + ' negatív</div>';
+    innerHTML += '<div class="reviews-verdict ' + verdict.cls + '">' + verdict.text + '</div>';
+    innerHTML += '</div>';
+    innerHTML += '<button class="new-review-btn" id="newReviewBtn">Új értékelés létrehozása</button>';
+    innerHTML += '<div class="reviews-filter">';
+    innerHTML += '<button class="reviews-filter-btn ' + posClass + '" data-review-filter="positive"><span class="dot pos-dot"></span> Pozitív (' + data.positiveCount + ')</button>';
+    innerHTML += '<button class="reviews-filter-btn ' + negClass + '" data-review-filter="negative"><span class="dot neg-dot"></span> Negatív (' + data.negativeCount + ')</button>';
+    innerHTML += '</div>';
+    innerHTML += '<div class="reviews-list">' + reviewsHTML + '</div>';
 
     buildModalStructure(reviewsModal, 'Értékelések', '', innerHTML);
 
-    const newClose = reviewsModal.querySelector('.modal-close');
+    var newClose = reviewsModal.querySelector('.modal-close');
     if (newClose) newClose.addEventListener('click', closeReviewsModal);
 
-    reviewsModal.querySelectorAll('[data-review-filter]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const filter = btn.dataset.reviewFilter;
-            if (currentReviewsFilter === filter) {
-                currentReviewsFilter = null;
-            } else {
-                currentReviewsFilter = filter;
-            }
+    reviewsModal.querySelectorAll('[data-review-filter]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            var filter = btn.dataset.reviewFilter;
+            currentReviewsFilter = currentReviewsFilter === filter ? null : filter;
             renderReviewsModal();
         });
     });
+
+    var newReviewBtn = reviewsModal.querySelector('#newReviewBtn');
+    if (newReviewBtn) {
+        newReviewBtn.addEventListener('click', function() {
+            openNewReviewModal();
+        });
+    }
 }
 
 function closeReviewsModal() {
@@ -1727,8 +1750,130 @@ function closeReviewsModal() {
     syncBottomNavWithOverlays();
 }
 
-reviewsModal.addEventListener('click', (e) => {
+reviewsModal.addEventListener('click', function(e) {
     if (e.target === reviewsModal) closeReviewsModal();
+});
+
+
+// ============================================
+// NEW REVIEW MODAL
+// ============================================
+var newReviewType = null;
+
+function openNewReviewModal() {
+    newReviewType = null;
+    renderNewReviewModal();
+    var modal = document.getElementById('newReviewModal');
+    modal.classList.add('active');
+    lockBodyScroll();
+    syncBottomNavWithOverlays();
+}
+
+function renderNewReviewModal() {
+    var modal = document.getElementById('newReviewModal');
+    if (!modal) return;
+
+    var posActive = newReviewType === 'positive' ? 'active positive' : '';
+    var negActive = newReviewType === 'negative' ? 'active negative' : '';
+    var newReviewStars = typeof window.newReviewStars !== 'undefined' ? window.newReviewStars : 0;
+
+    var now = new Date();
+    var dateStr = now.getFullYear() + '.' +
+        String(now.getMonth() + 1).padStart(2, '0') + '.' +
+        String(now.getDate()).padStart(2, '0') + '.';
+
+    var starsHTML = '';
+    for (var s = 1; s <= 5; s++) {
+        var filled = s <= newReviewStars ? 'filled' : '';
+        starsHTML += '<button class="new-review-star ' + filled + '" data-star="' + s + '">★</button>';
+    }
+
+    var innerHTML = '';
+    innerHTML += '<div class="new-review-guide">Kérlek válaszd ki, hogy <strong>pozitív</strong> vagy <strong>negatív</strong> hangvételű értékelést fogsz adni.</div>';
+    innerHTML += '<div class="new-review-type-row">';
+    innerHTML += '<button class="reviews-filter-btn ' + posActive + '" id="newReviewPos"><span class="dot pos-dot"></span> Pozitív</button>';
+    innerHTML += '<button class="reviews-filter-btn ' + negActive + '" id="newReviewNeg"><span class="dot neg-dot"></span> Negatív</button>';
+    innerHTML += '</div>';
+    innerHTML += '<div class="new-review-stars-label">Csillagos értékelés</div>';
+    innerHTML += '<div class="new-review-stars-row" id="newReviewStarsRow">' + starsHTML + '</div>';
+    innerHTML += '<div class="new-review-textarea-wrap">';
+    innerHTML += '<textarea id="newReviewText" class="new-review-textarea" placeholder="Írd le tapasztalatod úgy, hogy másoknak is segítsen a döntésben! Egy szavas vélemény nem sokat mond – próbálj konkrét lenni: mi tetszett vagy mi nem, miért ajánlod vagy nem." maxlength="300"></textarea>';
+    innerHTML += '<div class="new-review-char-count"><span id="newReviewCharCount">0</span>/300</div>';
+    innerHTML += '</div>';
+    innerHTML += '<div class="new-review-meta">';
+    innerHTML += '<span>Értékelő: <strong>Anna K.</strong></span>';
+    innerHTML += '<span>Dátum: ' + dateStr + '</span>';
+    innerHTML += '</div>';
+    innerHTML += '<button class="new-review-submit-btn" id="newReviewSubmit" disabled>Mentés</button>';
+
+    buildModalStructure(modal, 'Új értékelés', '', innerHTML);
+
+    var newClose = modal.querySelector('.modal-close');
+    if (newClose) newClose.addEventListener('click', closeNewReviewModal);
+
+    var posBtn = modal.querySelector('#newReviewPos');
+    var negBtn = modal.querySelector('#newReviewNeg');
+    var textarea = modal.querySelector('#newReviewText');
+    var charCount = modal.querySelector('#newReviewCharCount');
+    var submitBtn = modal.querySelector('#newReviewSubmit');
+    var starsRow = modal.querySelector('#newReviewStarsRow');
+
+    function checkSubmitState() {
+        var hasType = newReviewType !== null;
+        var hasText = textarea && textarea.value.trim().length >= 5;
+        if (submitBtn) submitBtn.disabled = !(hasType && hasText);
+    }
+
+    if (starsRow) {
+        starsRow.querySelectorAll('.new-review-star').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var val = parseInt(btn.dataset.star);
+                window.newReviewStars = window.newReviewStars === val ? 0 : val;
+                starsRow.querySelectorAll('.new-review-star').forEach(function(b) {
+                    b.classList.toggle('filled', parseInt(b.dataset.star) <= window.newReviewStars);
+                });
+            });
+        });
+    }
+
+    if (posBtn) posBtn.addEventListener('click', function() {
+        newReviewType = newReviewType === 'positive' ? null : 'positive';
+        renderNewReviewModal();
+    });
+
+    if (negBtn) negBtn.addEventListener('click', function() {
+        newReviewType = newReviewType === 'negative' ? null : 'negative';
+        renderNewReviewModal();
+    });
+
+    if (textarea && charCount) {
+        textarea.addEventListener('input', function() {
+            charCount.textContent = textarea.value.length;
+            checkSubmitState();
+        });
+    }
+
+    if (submitBtn) {
+        submitBtn.addEventListener('click', function() {
+            if (submitBtn.disabled) return;
+            window.newReviewStars = 0;
+            closeNewReviewModal();
+            showResult('<h2>Köszönjük!</h2><p>Az értékelésed beérkezett, és hamarosan megjelenik. 💅</p>');
+        });
+    }
+}
+
+function closeNewReviewModal() {
+    var modal = document.getElementById('newReviewModal');
+    if (!modal || !modal.classList.contains('active')) return;
+    modal.classList.remove('active');
+    newReviewType = null;
+    unlockBodyScroll();
+    syncBottomNavWithOverlays();
+}
+
+document.getElementById('newReviewModal').addEventListener('click', function(e) {
+    if (e.target === document.getElementById('newReviewModal')) closeNewReviewModal();
 });
 
 // ============================================
